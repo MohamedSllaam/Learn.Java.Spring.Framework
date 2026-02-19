@@ -13,5 +13,19 @@ public class App02GamimgBasicJava {
 	   
 	    
 	    System.out.println( context.getBean("name"));
+	    
+	    System.out.println( context.getBean("age"));
+
+	    System.out.println( context.getBean("age"));
+
+	    System.out.println( context.getBean("age2"));
+	    System.out.println( context.getBean("age3"));
+
+	    System.out.println( context.getBean("person"));
+
+	    System.out.println( context.getBean("address2"));
+
+	    System.out.println( context.getBean(Address.class));
+
 	}
 }
