@@ -1,4 +1,4 @@
-package com.in28minutes.learn.spring.framework.examples.e1;
+package com.in28minutes.learn.spring.framework.examples.f1;
 
 import java.util.Arrays;
 
@@ -14,53 +14,69 @@ import org.springframework.stereotype.Component;
 
 import com.in28minutes.learn.spring.framework.game.GameRunner;
 import com.in28minutes.learn.spring.framework.game.GamingConsole;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
  
 @Component
-class  NormalClass
+class  SomeDependency
 {
-public NormalClass(){
+public SomeDependency(){
 	 System.out.println("Some Inintialization logic");
 
 }
+
+public void getReady() {
+	System.out.println("SomeDependency SomeDependency ready"); 
+	
+}
 }
 
-@Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+//@Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Component
-class  PrototypeClass
+class  SomeClass
 {
 
-	 private NormalClass classA;
+	 private SomeDependency classA;
 
-	 public PrototypeClass(NormalClass classA) {
+	 public SomeClass(SomeDependency classA) {
+		 super();
 		 this.classA = classA;
-		 System.out.println("Some Inintialization logic");  	 			
+		 System.out.println("All dependencies are ready");  	 			
 	 }
 	
-	 public void doSomeThing() {
-		 System.out.println("doSome Thing");
+	 @PostConstruct
+	 public void initialize() {
+		 this.classA .getReady();
+	 }
+	 
+	 @PreDestroy
+	 public void CleanUp() {
+		 System.out.println( 
+				 "Clean up "
+			);
 	 }
 }
 
 @Configuration
 @ComponentScan
-public class BeanScopeLauncherApplication {
+public class PrePostAnnotationsLauncherApplication {
 
 	public static void main(String[] args) {
 
-		try(var context =new AnnotationConfigApplicationContext(BeanScopeLauncherApplication.class))
+		try(var context =new AnnotationConfigApplicationContext(PrePostAnnotationsLauncherApplication.class))
       		{
 			
 			Arrays.stream(context.getBeanDefinitionNames())
 			.forEach(System.out::println);
 			System.out.println("Initialztion of context is completed");
-			context.getBean(PrototypeClass.class).doSomeThing();
+			//context.getBean(SomeClass.class).doSomeThing();
 			
-			System.out.println(context.getBean(NormalClass.class));
-			System.out.println(context.getBean(NormalClass.class));
+			System.out.println(context.getBean(SomeDependency.class));
+			System.out.println(context.getBean(SomeDependency.class));
 			
-			System.out.println(context.getBean(PrototypeClass.class));
-			System.out.println(context.getBean(PrototypeClass.class));
-			System.out.println(context.getBean(PrototypeClass.class));
+			System.out.println(context.getBean(SomeClass.class));
+		
 			//System.out.print(context.getBean(YourBusinessClass.class));
       		}
 	}
