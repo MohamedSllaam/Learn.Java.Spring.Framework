@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.in28minutes.learn.spring.framework.game.GameRunner;
 import com.in28minutes.learn.spring.framework.game.GamingConsole;
@@ -19,7 +21,8 @@ import com.in28minutes.learn.spring.framework.game.GamingConsole;
 	int[] returnData();
 }
  
-@Component
+//@Component
+ @Repository
 //@Primary
  class  MongoDBDataService implements DataService
  {
@@ -33,7 +36,8 @@ import com.in28minutes.learn.spring.framework.game.GamingConsole;
 	 
  }
  
-@Component
+//@Component
+@Repository
 @Primary
  class MySqlDataService implements DataService
  {
@@ -47,8 +51,8 @@ import com.in28minutes.learn.spring.framework.game.GamingConsole;
 	 
  }
  
- 
-@Component
+@Service 
+//@Component
 class  YourBusinessClass
 {
 	private DataService dataService;

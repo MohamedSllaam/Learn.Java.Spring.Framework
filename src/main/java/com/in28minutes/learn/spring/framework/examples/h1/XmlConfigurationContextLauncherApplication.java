@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.in28minutes.learn.spring.framework.game.GameRunner;
@@ -21,43 +22,19 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
  
 //@Component
-@Named
-class  BusinessService
-{
-	private DataService dataService;
-
-//@Autowired
-@Inject
-public DataService getDataService() 
-{
-	System.out.println("Setter Injection");
-return dataService;	
-}
- public void setDataService(DataService dataService) 
- {
-//System.out.println("Setter Injection");
-	this.dataService= dataService;
- }
-}
-
-
-class DataService 
-{
-	
-}
-
-@Configuration
 @ComponentScan
 public class XmlConfigurationContextLauncherApplication {
 
 	public static void main(String[] args) {
 
-		try(var context =new AnnotationConfigApplicationContext(XmlConfigurationContextLauncherApplication.class))
+		try(var context =new ClassPathXmlApplicationContext("ContextConfiguration.xml"))
       		{
 			
 			Arrays.stream(context.getBeanDefinitionNames())
 			.forEach(System.out::println);
 			System.out.println("Initialztion of context is completed");
+			
+			System.out.println(context.getBean("name"));
 			
       		}
 	}
